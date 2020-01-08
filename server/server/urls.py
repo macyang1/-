@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from api.views import store_view, user_view
+from api.views import store_view, user_view, order_view
 from django.views.static import serve
 from django.conf import settings
 
@@ -25,6 +25,7 @@ urlpatterns = [
     path('v1/food/show_food', store_view.FoodInfo.as_view()),
     path('v1/food/show_detail', store_view.FoodInfo.as_view()),
     path('v1/user/login', user_view.UserLogin.as_view()),
+    path('v1/shop_car/edite', order_view.ShopCar.as_view()),
 
     re_path('static/(?P<PATH>.*)', serve, {'document_root':settings.STATICFILES_DIRS})
 ]
