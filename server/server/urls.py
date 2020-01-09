@@ -25,7 +25,12 @@ urlpatterns = [
     path('v1/food/show_food', store_view.FoodInfo.as_view()),
     path('v1/food/show_detail', store_view.FoodInfo.as_view()),
     path('v1/user/login', user_view.UserLogin.as_view()),
-    path('v1/shop_car/edite', order_view.ShopCar.as_view()),
+    path('v1/shop_car/edite', order_view.EditCar.as_view()),
+    path('v1/shop_car/check_current', order_view.ShopCar.as_view()),
+    path('v1/shop_car/check_before', order_view.CheckBefore.as_view()),
+    path('v1/address/edit', user_view.UserAddress.as_view()),
+    path('v1/shop_car/delete', order_view.DeleteFood.as_view()),
+
 
     re_path('static/(?P<PATH>.*)', serve, {'document_root':settings.STATICFILES_DIRS})
 ]

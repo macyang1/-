@@ -6,7 +6,7 @@ class BigOrderModelSerializer(ModelSerializer):
 
     class Meta:
         model = BigOrder
-        fields = ('open_id', 'order_id', 'status', 'address')
+        fields = ('open_id', 'order_id', 'status', 'address', 'small_order')
 
 
 class SmallOrderModelSerializer(ModelSerializer):

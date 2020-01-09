@@ -63,18 +63,32 @@ class Warehouse(Base):  # 仓库
 ##################################################################
 
 class BigOrder(Base):  # 总订单
-    choice = ((0, '未支付'), (1, '已支付'), (2, '以接单'), (3, '订单完成'))
+
     open_id = models.CharField(max_length=255, verbose_name="微信用户ID")
     order_id = models.CharField(max_length=255, verbose_name="订单号")
-    status = models.CharField(choices=choice, max_length=255, default=0, verbose_name='订单状态')
+    # status = models.CharField(choices=choice, max_length=255, default=0, verbose_name='订单状态')
     address = models.CharField(max_length=255, verbose_name="收货地址")
+    all_price = models.IntegerField(default=0)
+
+    @property
+    def small_order(self):
+        from api.ser.order_ser import SmallOrderModelSerializer
+        small_list = SmallOrder.objects.filter(big_order=self.order_id)
+        small_order_data = SmallOrderModelSerializer(instance=small_list, many=True).data
+        return small_order_data
+
 
 
 class SmallOrder(Base):  # 子订单
+
     big_order = models.ForeignKey(to="BigOrder", related_name="big_order", on_delete=models.DO_NOTHING,
                                   db_constraint=True, verbose_name="大订单")
     food_id = models.CharField(max_length=255, verbose_name="商品ID")
+    food_name = models.CharField(max_length=255, default=None, verbose_name='商品名字')
+    food_num = models.CharField(max_length=255,default=None, verbose_name='购买数量')
+    food_price = models.CharField(max_length=255,default=None, verbose_name='商品价格')
     is_discount = models.BooleanField(default=0, verbose_name="折扣")
+
 
 
 class Active(Base):  # 活动
@@ -88,6 +102,6 @@ class Active(Base):  # 活动
 class Address(Base):  # 收货地址
     # id 1 2 3
     open_id = models.CharField(max_length=255)
-    add = models.CharField(max_length=255, verbose_name="收货地址")
+    address = models.CharField(max_length=255, verbose_name="收货地址")
     phone = models.CharField(max_length=255, verbose_name="收货电话")
-    rec_name = models.CharField(max_length=255, verbose_name="收货人姓名")
+    name = models.CharField(max_length=255, verbose_name="收货人姓名")
